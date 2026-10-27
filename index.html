@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sami Pay — Home</title>
+<style>
+:root{--green:#14684f;--green-dark:#0c382d;--mint:#e9f5ef;--bg:#f5f7f8;--text:#17221e;--muted:#7a8782;--line:#e7ece9;--white:#fff;--blue:#5968c8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.wrap{max-width:1080px;margin:0 auto;padding:24px 22px 42px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.brand{font-weight:900;font-size:29px;letter-spacing:-1.2px;color:var(--green-dark)}.brand span{color:#28a476}
+.badge{font-size:12px;color:var(--green);background:var(--mint);padding:8px 11px;border-radius:99px;font-weight:750}
+.greeting{margin:0 0 18px}.greeting h1{font-size:25px;letter-spacing:-.7px;margin:0 0 5px}.greeting p{margin:0;color:var(--muted);font-size:14px}
+.balance{background:linear-gradient(125deg,#176c53,#103e34);border-radius:23px;padding:25px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 28px #0e513a19}
+.balance:after{content:"";position:absolute;width:210px;height:210px;border:1px solid #ffffff26;border-radius:50%;right:-60px;top:-80px;box-shadow:0 0 0 26px #ffffff0b,0 0 0 54px #ffffff08}
+.balance-top{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1}.balance-label{font-size:13px;color:#d3e9df}.currency{font-size:12px;background:#ffffff1b;padding:7px 10px;border-radius:8px}
+.amount{font-size:39px;font-weight:850;letter-spacing:-1.2px;margin:14px 0 8px;position:relative;z-index:1}.balance-foot{font-size:12px;color:#d3e9df;position:relative;z-index:1}
+.section{margin-top:27px}.section-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:14px;gap:10px}.section-heading h2{font-size:18px;letter-spacing:-.35px;margin:0}.section-heading p{font-size:12px;color:var(--muted);margin:4px 0 0}
+.transfer-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.transfer-card{background:#fff;border:1px solid var(--line);border-radius:19px;padding:20px;display:flex;align-items:center;gap:15px;text-align:left;min-height:128px;box-shadow:0 3px 12px #12271d04;transition:transform .15s,border-color .15s;width:100%}
+.transfer-card:hover{transform:translateY(-2px);border-color:#a8d2bf}.transfer-card:focus-visible,.tile:focus-visible{outline:3px solid #86cbb0;outline-offset:3px}
+.transfer-icon{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;flex-shrink:0;background:#e8f5ee;color:var(--green);font-size:24px;font-weight:800}
+.transfer-icon.international{background:#edf0ff;color:var(--blue)}
+.transfer-copy{flex:1;min-width:0}.transfer-copy strong{display:block;font-size:16px}.transfer-copy p{font-size:12px;line-height:1.45;color:var(--muted);margin:6px 0 9px}
+.pills{display:flex;flex-wrap:wrap;gap:5px}.pill{font-size:10px;font-weight:800;border:1px solid var(--line);background:#fafcfb;border-radius:99px;padding:4px 7px;color:#53635b}
+.arrow{font-size:23px;color:#82928a}
+.services{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.tile{border:1px solid var(--line);background:var(--white);border-radius:17px;padding:19px 14px 17px;min-height:130px;text-align:left;display:flex;flex-direction:column;align-items:flex-start;transition:transform .15s,border-color .15s;box-shadow:0 3px 12px #12271d04}
+.tile:hover{transform:translateY(-2px);border-color:#b8d8c9}
+.icon{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:var(--mint);color:var(--green);font-size:23px;font-weight:800;margin-bottom:14px}
+.tile strong{font-size:14px}.tile small{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.35}
+.bottom-note{margin-top:27px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px 16px;display:flex;gap:12px;align-items:flex-start;color:#66746d;font-size:12px;line-height:1.55}
+.note-icon{font-weight:900;color:var(--green);background:var(--mint);border-radius:9px;width:29px;height:29px;display:grid;place-items:center;flex-shrink:0}
+
+/* Login screen and connected demo dashboard */
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(circle at top right,#e1f3e9 0,transparent 38%),var(--bg)}
+.login-card{width:min(440px,100%);background:#fff;border:1px solid var(--line);border-radius:25px;padding:30px;box-shadow:0 18px 55px #123b2b12}
+.login-mark{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;background:var(--mint);color:var(--green);font-size:27px;font-weight:900;margin-bottom:20px}
+.login-card h1{font-size:27px;letter-spacing:-.7px;margin:0 0 8px}.login-card .intro{margin:0 0 22px;color:var(--muted);font-size:14px;line-height:1.55}
+.login-error{font-size:12px;line-height:1.5;color:#a12b2b;margin-top:10px;min-height:16px}
+.login-foot{font-size:11px;line-height:1.5;color:var(--muted);margin-top:17px}
+.logout{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 12px;color:var(--green);font-size:12px;font-weight:800}
+.header-actions{display:flex;align-items:center;gap:10px}
+[hidden]{display:none!important}
+@media(max-width:480px){.login-card{padding:24px 20px}.login-card h1{font-size:24px}}
+
+/* Simple transfer flow */
+.modal-backdrop{position:fixed;inset:0;background:#0b211bb8;display:none;align-items:center;justify-content:center;padding:18px;z-index:10;overflow:auto}
+.modal-backdrop.open{display:flex}.modal{width:min(560px,100%);max-height:calc(100vh - 36px);overflow:auto;background:#fff;border-radius:23px;padding:24px;box-shadow:0 25px 80px #071b1460}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}.modal-header h2{margin:0;font-size:23px;letter-spacing:-.6px}.modal-header p{margin:6px 0 0;font-size:13px;color:var(--muted);line-height:1.45}
+.close{border:0;background:#f0f4f2;width:37px;height:37px;border-radius:12px;font-size:22px;color:#44554d}
+.steps{display:flex;gap:7px;margin:0 0 20px}.step{height:4px;background:#e7ece9;border-radius:9px;flex:1}.step.done{background:var(--green)}
+.form-label{display:block;font-size:13px;font-weight:750;margin:15px 0 7px}.field{width:100%;padding:13px 14px;border:1px solid #dce5e0;border-radius:12px;background:#fff;color:var(--text);outline:none}.field:focus{border-color:#5ba98a;box-shadow:0 0 0 3px #e5f5ed}
+.amount-box{position:relative}.amount-box .field{font-size:23px;font-weight:800;padding-right:72px}.amount-suffix{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-weight:800;color:#64736b}
+.helper{font-size:12px;color:var(--muted);line-height:1.5;margin-top:7px}
+.primary{width:100%;border:0;background:var(--green);color:white;border-radius:12px;padding:14px 16px;font-weight:800;margin-top:21px}.primary:hover{background:var(--green-dark)}
+.secondary{width:100%;border:1px solid var(--line);background:#fff;color:var(--green);border-radius:12px;padding:13px 16px;font-weight:800;margin-top:9px}
+.route{background:#f5f8f6;border:1px solid #e8efeb;border-radius:14px;padding:14px;margin:14px 0;display:flex;align-items:center;gap:11px}.route-icon{width:40px;height:40px;border-radius:12px;background:#e3f2e9;color:var(--green);display:grid;place-items:center;font-weight:900;font-size:18px;flex-shrink:0}.route strong{font-size:13px}.route small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.summary{border:1px solid var(--line);border-radius:15px;padding:4px 14px;margin-top:14px}.summary-row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.summary-row:last-child{border-bottom:0}.summary-row span:first-child{color:var(--muted)}.summary-row strong{text-align:right;overflow-wrap:anywhere}
+.notice{background:#fff8e7;border:1px solid #f1e0b5;color:#775d1b;border-radius:12px;padding:12px 13px;font-size:12px;line-height:1.5;margin-top:15px}
+.status{font-size:13px;line-height:1.5;margin-top:13px;color:var(--green);font-weight:700}
+@media(max-width:680px){.wrap{padding:20px 16px 32px}.brand{font-size:26px}.greeting h1{font-size:23px}.balance{padding:22px}.amount{font-size:35px}.services{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.tile{min-height:125px;padding:16px 13px}.section-heading h2{font-size:17px}.transfer-options{grid-template-columns:1fr}.transfer-card{padding:16px;min-height:115px}.modal{padding:20px;border-radius:20px}.modal-header h2{font-size:21px}}
+@media(min-width:681px) and (max-width:900px){.services{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Sami Pay Request Money */
+.request-panel{margin-top:24px;background:linear-gradient(135deg,#f2faf6,#fff);border:1px solid #dcebe3;border-radius:22px;padding:22px;box-shadow:0 6px 22px #12271d05}
+.request-panel-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.request-intro{display:flex;align-items:center;gap:13px}
+.request-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:16px;background:#dff3e8;color:#176b4a;font-size:25px;flex-shrink:0}
+.request-intro h2{margin:0;font-size:18px;letter-spacing:-.35px}
+.request-intro p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+.request-btn{border:0;border-radius:13px;background:#176b4a;color:#fff;padding:12px 17px;font-weight:750;cursor:pointer}
+.request-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:19px}
+.request-stat{background:#fff;border:1px solid #e3eee8;border-radius:14px;padding:12px 14px}
+.request-stat span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}
+.request-stat strong{font-size:17px;letter-spacing:-.3px}
+.request-list{margin-top:17px}.request-list-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.request-list-head h3{margin:0;font-size:14px}.request-list-head span{font-size:11px;color:var(--muted)}
+.request-empty{padding:18px;border:1px dashed #cbdcd2;border-radius:14px;color:var(--muted);font-size:13px;text-align:center;background:#ffffffa8}
+.request-item{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border:1px solid #e3eee8;border-radius:14px;padding:13px;margin-top:9px}
+.request-person{min-width:0}.request-person strong{display:block;font-size:13px;overflow-wrap:anywhere}
+.request-person small{display:block;color:var(--muted);font-size:11px;margin-top:4px;overflow-wrap:anywhere}
+.request-right{text-align:right;flex-shrink:0}.request-right strong{display:block;font-size:13px}
+.request-status{display:inline-block;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:750;margin-top:5px;background:#fff2d7;color:#865b00}
+.request-status.paid{background:#def5e8;color:#176b4a}.request-status.declined{background:#fde7e7;color:#a33131}
+.request-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px;justify-content:flex-end}
+.request-actions button{border:1px solid #d8e5dd;border-radius:9px;background:#fff;padding:6px 9px;font-size:11px;font-weight:700;cursor:pointer;color:#176b4a}
+.request-actions button.approve{background:#176b4a;color:#fff;border-color:#176b4a}
+.request-modal-note{background:#fff7e7;border:1px solid #f1dfb7;border-radius:12px;padding:11px 12px;color:#74571d;font-size:12px;line-height:1.5;margin:12px 0}
+.request-confirm-box{background:#f4faf6;border:1px solid #dcebe3;border-radius:13px;padding:14px;margin:14px 0}
+.request-confirm-box strong{display:block;margin-bottom:6px}.request-confirm-box p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+@media(max-width:560px){.request-panel{padding:17px}.request-panel-top{align-items:flex-start}.request-btn{width:100%}.request-stats{gap:7px}.request-stat{padding:10px}.request-stat strong{font-size:15px}.request-item{align-items:flex-start}.request-right strong{font-size:12px}}
+
+
+/* Request Money is a dedicated flow opened from Everyday Services */
+#requestModal.open{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:22px;background:#f5f8f6;z-index:1000}
+#requestModal.open .modal{width:min(100%,680px);max-width:680px;margin:8px auto 28px;border:1px solid #dfe9e3;border-radius:24px;box-shadow:0 12px 36px #183b2b10;overflow:visible}
+.request-page-header{padding-bottom:19px;border-bottom:1px solid #edf1ee}
+.request-eyebrow{font-size:10px;letter-spacing:1.5px;font-weight:800;color:#24724f;margin-bottom:8px}
+.request-page-header h2{font-size:25px;letter-spacing:-.7px}
+.request-page-header p{font-size:13px;line-height:1.5}
+.request-back{width:auto;min-width:74px;padding:9px 12px;border-radius:11px;border:1px solid #dbe6df;background:#fff;font-size:12px;font-weight:700;white-space:nowrap}
+#requestModal .steps{margin-top:18px;margin-bottom:20px}
+#requestModal .form-label{margin-top:16px}
+#requestModal .request-modal-note{margin:18px 0}
+#requestModal .primary,#requestModal .secondary{min-height:48px}
+.request-service-tile .icon{background:#e0f4e8;color:#176b4a}
+@media(max-width:560px){
+ #requestModal.open{padding:0;background:#fff}
+ #requestModal.open .modal{width:100%;max-width:none;margin:0;border:0;border-radius:0;min-height:100%;padding:20px 18px 28px;box-shadow:none}
+ .request-page-header h2{font-size:23px}
+ .request-back{padding:8px 10px;min-width:65px}
+}
+
+
+.request-history{border-top:1px solid #e8efea;margin-top:26px;padding-top:22px}
+.request-history-heading h3{font-size:16px;margin:0}
+.request-history-heading p{font-size:12px;color:var(--muted);margin:5px 0 0}
+.request-history .request-list{margin-top:14px}
+
+
+/* Sami Pay Buy Airtime flow */
+#airtimeModal.open{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:22px;background:#f5f8f6;z-index:1001}
+#airtimeModal.open .modal{width:min(100%,680px);max-width:680px;margin:8px auto 28px;border:1px solid #dfe9e3;border-radius:24px;box-shadow:0 12px 36px #183b2b10;overflow:visible}
+.airtime-page-header{align-items:center}
+.airtime-eyebrow{font-size:10px;font-weight:850;letter-spacing:1.5px;color:var(--green);margin-bottom:7px}
+.airtime-back{width:auto;padding:0 13px;font-size:13px;font-weight:750;white-space:nowrap}
+.airtime-intro{background:linear-gradient(135deg,#e8f6ee,#f7fbf8);border:1px solid #dcece3;border-radius:17px;padding:15px;margin:8px 0 18px;display:flex;align-items:center;gap:12px}
+.airtime-intro .transfer-icon{width:44px;height:44px}
+.airtime-intro strong{font-size:14px;display:block}.airtime-intro p{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.45}
+.network-picker{position:relative}
+.network-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;background:#fff;border:1px solid #dce5e0;border-radius:12px;padding:12px 14px;min-height:51px;color:var(--text)}
+.network-trigger:focus-visible,.network-option:focus-visible{outline:3px solid #86cbb0;outline-offset:2px}
+.network-trigger-copy{display:flex;align-items:center;gap:10px}
+.network-logo{width:30px;height:30px;border-radius:10px;background:#eef6f1;color:var(--green);display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0}
+.network-logo.mtn{background:#fff3bf;color:#665000}.network-logo.airtel{background:#ffe7e8;color:#c21c30}.network-logo.glo{background:#e3f7e9;color:#087a36}
+.network-trigger strong{font-size:13px}.network-trigger small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.network-chevron{color:#718078;font-size:17px}
+.network-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px}
+.network-option{border:1px solid #dfe8e3;background:#fff;border-radius:13px;padding:12px 9px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:13px;color:#23332b}
+.network-option.selected{border-color:var(--green);background:#edf8f1;box-shadow:0 0 0 2px #d8eee1}
+.phone-wrap{position:relative}.phone-wrap .field{padding-left:44px;font-size:17px;letter-spacing:.4px}
+.phone-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:#64736b;font-weight:800}
+.airtime-amounts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px}
+.airtime-amount{border:1px solid #dfe8e3;background:#fff;border-radius:13px;padding:13px 8px;min-height:54px;font-weight:850;color:#26362e}
+.airtime-amount.selected{border-color:var(--green);background:#eaf6ef;color:var(--green);box-shadow:0 0 0 2px #d8eee1}
+.custom-airtime-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end;margin-top:17px}
+.custom-airtime-row .form-label{margin-top:0}
+.custom-airtime-row .field{min-height:51px}
+.airtime-buy-btn{margin-top:0;min-height:51px;white-space:nowrap;padding:13px 17px}
+.airtime-summary{margin-top:17px}
+.airtime-status{font-size:13px;line-height:1.5;margin-top:13px;font-weight:700;color:var(--green)}
+.airtime-demo-note{margin-top:17px;background:#fff8e7;border:1px solid #f1e0b5;color:#775d1b;border-radius:12px;padding:12px 13px;font-size:12px;line-height:1.5}
+@media(max-width:680px){#airtimeModal.open{padding:0;background:#fff}#airtimeModal.open .modal{width:100%;max-width:none;margin:0;border:0;border-radius:0;min-height:100%;padding:20px 18px 28px;box-shadow:none}}
+@media(max-width:390px){.network-option{gap:5px;font-size:12px;padding:11px 5px}.network-logo{width:26px;height:26px}.custom-airtime-row{grid-template-columns:minmax(0,1fr) auto;gap:7px}.airtime-buy-btn{padding:12px 11px;font-size:12px}.airtime-amount{font-size:13px}}
+
+</style>
+</head>
+<body>
+
+<section class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-mark">S</div>
+    <div class="brand" style="margin-bottom:22px">Sami <span>Pay</span></div>
+    <h1>Welcome back</h1>
+    <p class="intro">Sign in to access your dashboard and everyday financial services.</p>
+    <form id="loginForm">
+      <label class="form-label" for="loginIdentity">Email address or phone number</label>
+      <input class="field" id="loginIdentity" name="identity" type="text" autocomplete="username" required placeholder="you@example.com or phone number">
+      <label class="form-label" for="loginPassword">Password</label>
+      <input class="field" id="loginPassword" name="password" type="password" autocomplete="current-password" required minlength="4" placeholder="Enter your password">
+      <button class="primary" type="submit">Log in to Sami Pay</button>
+      <div class="login-error" id="loginError" role="status" aria-live="polite"></div>
+    </form>
+    <div class="notice">Prototype sign-in only. Use fictional details; no account is created and no password is sent to a server.</div>
+    <p class="login-foot">This is a demo interface, not a live financial account. Real sign-in requires secure authentication and a backend.</p>
+  </div>
+</section>
+
+<main class="wrap" id="dashboardApp" hidden>
+  <header><div class="brand">Sami <span>Pay</span></div><div class="header-actions"><div class="badge">Personal account</div><button class="logout" type="button" id="logoutBtn">Log out</button></div></header>
+  <section class="greeting"><h1>Welcome to Sami Pay</h1><p>Your money and everyday services, in one place.</p></section>
+  <section class="balance" aria-label="Account balance">
+    <div class="balance-top"><div class="balance-label">Total account balance</div><div class="currency">NGN ₦</div></div>
+    <div class="amount">₦0.00</div><div class="balance-foot">Available balance · New account</div>
+  </section>
+
+
+  <section class="section">
+    <div class="section-heading"><div><h2>Transfer money</h2><p>Choose where your money is going</p></div></div>
+    <div class="transfer-options">
+      <button class="transfer-card" type="button" data-transfer="local">
+        <span class="transfer-icon">⇄</span><span class="transfer-copy"><strong>Local transfer</strong><p>Send naira to a bank account in Nigeria.</p><span class="pills"><span class="pill">NGN ₦</span><span class="pill">Within Nigeria</span></span></span><span class="arrow">›</span>
+      </button>
+      <button class="transfer-card" type="button" data-transfer="international">
+        <span class="transfer-icon international">↗</span><span class="transfer-copy"><strong>International transfer</strong><p>Send across borders in supported currencies.</p><span class="pills"><span class="pill">USD $</span><span class="pill">EUR €</span></span></span><span class="arrow">›</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="section"><div class="section-heading"><div><h2>Everyday services</h2><p>Choose a service to get started</p></div></div>
+    <div class="services">
+      <button class="tile" type="button" id="buyAirtimeTile" data-service="Buy airtime"><span class="icon">☎</span><strong>Buy Airtime</strong><small>Top up a mobile number</small></button>
+      <button class="tile" type="button" data-service="Buy data"><span class="icon">▤</span><strong>Buy Data</strong><small>Mobile data bundles</small></button>
+      <button class="tile" type="button" data-service="Electricity"><span class="icon">ϟ</span><strong>Electricity</strong><small>Pay electricity bills</small></button>
+      <button class="tile" type="button" data-service="Cable TV"><span class="icon">▣</span><strong>Cable TV</strong><small>Renew your subscription</small></button>
+      <button class="tile" type="button" data-service="Tuition fees"><span class="icon">🎓</span><strong>Tuition Fees</strong><small>Pay school or university fees</small></button>
+      <button class="tile" type="button" data-service="Remita"><span class="icon">▧</span><strong>Remita</strong><small>Government and supported payments</small></button>
+      <button class="tile request-service-tile" type="button" id="requestMoneyServiceTile"><span class="icon">↙</span><strong>Request Money</strong><small>Request payment securely</small></button>
+    </div>
+  </section>
+  <section class="section"><div class="section-heading"><div><h2>Invest &amp; grow</h2><p>Explore investment services</p></div></div>
+    <div class="services">
+      <button class="tile" type="button" data-service="Buy stocks"><span class="icon">↗</span><strong>Buy Stocks</strong><small>Explore stock investments</small></button>
+      <button class="tile" type="button" data-service="Buy crypto"><span class="icon">₿</span><strong>Buy Crypto</strong><small>Explore cryptocurrency</small></button>
+    </div>
+  </section>
+  <div class="bottom-note"><span class="note-icon">i</span><div><strong>Welcome to your new account.</strong><br>This is a visual prototype. Your balance starts at ₦0.00. Service buttons let you explore the interface, but no real transfers, bill payments, tuition payments, Remita payments, or currency conversions are processed.</div></div>
+</main>
+
+
+
+<div class="modal-backdrop" id="airtimeModal" role="dialog" aria-modal="true" aria-labelledby="airtimeModalTitle">
+ <div class="modal">
+  <div class="modal-header airtime-page-header">
+   <div><div class="airtime-eyebrow">SAMI PAY · EVERYDAY SERVICES</div><h2 id="airtimeModalTitle">Buy airtime</h2><p>Top up a Nigerian mobile number in a few simple steps.</p></div>
+   <button class="close airtime-back" type="button" id="closeAirtimeModal" aria-label="Back to dashboard">← Back</button>
+  </div>
+  <div class="airtime-intro"><span class="transfer-icon">☎</span><div><strong>Instant mobile top-up</strong><p>Choose a network, enter the recipient's number, and select an amount.</p></div></div>
+  <form id="airtimeForm">
+   <label class="form-label" for="networkTrigger">Network provider</label>
+   <div class="network-picker">
+    <button class="network-trigger" type="button" id="networkTrigger" aria-expanded="false" aria-controls="networkOptions">
+     <span class="network-trigger-copy"><span class="network-logo" id="selectedNetworkLogo">SIM</span><span><strong id="selectedNetworkName">Choose a network</strong><small id="selectedNetworkHelp">MTN, Airtel or Glo</small></span></span><span class="network-chevron">⌄</span>
+    </button>
+    <div class="network-options" id="networkOptions" hidden>
+     <button class="network-option" type="button" data-network="MTN"><span class="network-logo mtn">MTN</span>MTN</button>
+     <button class="network-option" type="button" data-network="Airtel"><span class="network-logo airtel">A</span>Airtel</button>
+     <button class="network-option" type="button" data-network="Glo"><span class="network-logo glo">G</span>Glo</button>
+    </div>
+   </div>
+   <label class="form-label" for="airtimePhone">Phone number</label>
+   <div class="phone-wrap"><span class="phone-prefix">+234</span><input class="field" id="airtimePhone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="11" pattern="[0-9]{11}" placeholder="08012345678" required></div>
+   <div class="helper">Enter the 11-digit Nigerian mobile number. Only numbers are accepted.</div>
+   <label class="form-label">Choose airtime amount</label>
+   <div class="airtime-amounts" id="airtimeAmounts" aria-label="Airtime amount options">
+    <button class="airtime-amount" type="button" data-amount="50">₦50</button>
+    <button class="airtime-amount" type="button" data-amount="100">₦100</button>
+    <button class="airtime-amount" type="button" data-amount="200">₦200</button>
+    <button class="airtime-amount" type="button" data-amount="500">₦500</button>
+    <button class="airtime-amount" type="button" data-amount="1000">₦1,000</button>
+    <button class="airtime-amount" type="button" data-amount="5000">₦5,000</button>
+   </div>
+   <div class="custom-airtime-row">
+    <div><label class="form-label" for="customAirtimeAmount">Or enter a custom amount (₦)</label><input class="field" id="customAirtimeAmount" type="number" min="50" step="1" inputmode="numeric" placeholder="Enter amount"></div>
+    <button class="primary airtime-buy-btn" type="submit" id="buyAirtimeBtn">Buy airtime</button>
+   </div>
+   <div class="airtime-demo-note">Demo only: this screen does not charge your account or deliver airtime. Real purchases will require secure payment processing and a connected, authorized airtime provider.</div>
+   <div class="airtime-summary" id="airtimeReview" hidden>
+    <div class="route"><span class="route-icon">☎</span><div><strong>Review airtime purchase</strong><small>Confirm the network, number and amount.</small></div></div>
+    <div class="summary" id="airtimeSummary"></div>
+    <button class="primary" type="button" id="confirmAirtimeBtn">Confirm demo purchase</button>
+    <button class="secondary" type="button" id="editAirtimeBtn">Edit details</button>
+    <div class="airtime-status" id="airtimeResult" aria-live="polite"></div>
+   </div>
+  </form>
+ </div>
+</div>
+
+<div class="modal-backdrop" id="requestModal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
+ <div class="modal">
+  <div class="modal-header request-page-header"><div><div class="request-eyebrow">SAMI PAY · PAYMENTS</div><h2 id="requestModalTitle">Request money</h2><p>Create a request, review it, and track the response.</p></div><button class="close request-back" type="button" id="closeRequestModal" aria-label="Back to dashboard">← Back</button></div>
+  <div class="steps"><span class="step done" id="requestStep1">1. Details</span><span class="step" id="requestStep2">2. Review</span></div>
+  <form id="requestForm"><div id="requestDetailsStep">
+   <label class="form-label" for="requestPayer">Payer's name</label><input class="field" id="requestPayer" required maxlength="80" placeholder="Who are you requesting money from?">
+   <label class="form-label" for="requestContact">Payer's phone number or email</label><input class="field" id="requestContact" required maxlength="120" placeholder="Phone number or email address">
+   <label class="form-label" for="requestAmount">Amount (NGN)</label><div class="amount-box"><input class="field" id="requestAmount" type="number" min="1" step="0.01" required placeholder="0.00"><span class="amount-suffix">NGN ₦</span></div>
+   <label class="form-label" for="requestNote">Payment note <span style="font-weight:400;color:#7a8782">(optional)</span></label><input class="field" id="requestNote" maxlength="120" placeholder="e.g. Dinner, shared bill, repayment">
+   <div class="request-modal-note">A request is not a payment. In the live app, the payer must receive a notification and explicitly approve the payment, then pass an additional security check such as their transaction PIN or supported biometric authentication. Nothing will be charged automatically.</div>
+   <button class="primary" type="button" id="reviewRequestBtn">Review request</button>
+  </div><div id="requestReviewStep" hidden>
+   <div class="route"><span class="route-icon">↙</span><div><strong>Review payment request</strong><small>Check the details before creating it.</small></div></div>
+   <div class="summary" id="requestSummary"></div>
+   <div class="request-confirm-box"><strong>Consent comes first</strong><p>The payer must approve the request and authenticate the payment. Creating this demo request will not notify anyone or move money.</p></div>
+   <button class="primary" type="submit">Create demo request</button><button class="secondary" type="button" id="editRequestBtn">Edit details</button><div class="status" id="requestResult" aria-live="polite"></div>
+  </div></form>
+  <section class="request-history" aria-labelledby="requestHistoryTitle">
+   <div class="request-history-heading"><div><h3 id="requestHistoryTitle">Request activity</h3><p>Track the status of requests created in this demo.</p></div></div>
+   <div class="request-stats">
+    <div class="request-stat"><span>Pending</span><strong id="pendingCount">0</strong></div>
+    <div class="request-stat"><span>Marked paid</span><strong id="paidTotal">₦0.00</strong></div>
+    <div class="request-stat"><span>Total requests</span><strong id="requestCount">0</strong></div>
+   </div>
+   <div id="requestList" class="request-list"><div class="request-empty">No requests yet. Create a request to see it here.</div></div>
+  </section>
+ </div>
+</div>
+<div class="modal-backdrop" id="approveRequestModal" role="dialog" aria-modal="true" aria-labelledby="approveRequestTitle">
+ <div class="modal">
+  <div class="modal-header"><div><h2 id="approveRequestTitle">Approve payment request</h2><p>Review the request before taking action.</p></div><button class="close" type="button" id="closeApproveModal" aria-label="Close">×</button></div>
+  <div id="approveRequestDetails"></div>
+  <div class="request-modal-note">Demo approval only. In a live Sami Pay app, approval would require the payer to be signed in, have sufficient available funds, and complete transaction authentication (PIN or supported biometrics). This prototype does not charge anyone.</div>
+  <label class="form-label" for="demoTransactionPin">Demo transaction PIN</label><input class="field" id="demoTransactionPin" type="password" inputmode="numeric" maxlength="6" placeholder="Enter any 4–6 digits to simulate authentication">
+  <button class="primary" type="button" id="confirmDemoApproval">Authenticate &amp; approve demo</button><button class="secondary" type="button" id="declineRequestBtn">Decline request</button><div class="status" id="approvalResult" aria-live="polite"></div>
+ </div>
+</div>
+<div class="modal-backdrop" id="transferModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-header"><div><h2 id="modalTitle">Transfer money</h2><p id="modalSubtitle">Enter the recipient and payment details.</p></div><button class="close" id="closeModal" aria-label="Close transfer">×</button></div>
+    <div class="steps"><span class="step done" id="step1"></span><span class="step" id="step2"></span></div>
+    <form id="transferForm">
+      <div id="detailsStep">
+        <div class="route"><span class="route-icon" id="routeIcon">⇄</span><div><strong id="routeName">Local transfer</strong><small id="routeDescription">Within Nigeria · Nigerian naira (NGN)</small></div></div>
+        <label class="form-label" for="recipientName">Recipient full name</label><input class="field" id="recipientName" required autocomplete="name" placeholder="Enter the recipient's name">
+        <div id="localFields">
+          <label class="form-label" for="bankName">Recipient's bank</label><select class="field" id="bankName"><option value="">Select a bank</option><option>Access Bank</option><option>First Bank</option><option>GTBank</option><option>UBA</option><option>Zenith Bank</option><option>Other Nigerian bank</option></select>
+          <label class="form-label" for="accountNumber">Account number</label><input class="field" id="accountNumber" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" placeholder="10-digit account number">
+        </div>
+        <div id="internationalFields" hidden>
+          <label class="form-label" for="country">Recipient's country</label><select class="field" id="country"><option value="">Choose a country</option><option value="United States">United States</option><option value="United Kingdom">United Kingdom</option><option value="Ireland">Ireland</option><option value="France">France</option><option value="Germany">Germany</option><option value="Netherlands">Netherlands</option><option value="Canada">Canada</option><option value="Other">Other / not listed</option></select>
+          <label class="form-label" for="receiveCurrency">Recipient receives</label><select class="field" id="receiveCurrency"><option value="USD">US dollars — USD ($)</option><option value="EUR">Euros — EUR (€)</option></select>
+          <label class="form-label" for="recipientBank">Recipient bank name</label><input class="field" id="recipientBank" placeholder="Enter recipient's bank">
+          <label class="form-label" for="recipientAccount">IBAN or account number</label><input class="field" id="recipientAccount" placeholder="Enter bank details">
+          <label class="form-label" for="swift">SWIFT/BIC code <span style="font-weight:400;color:#7a8782">(if required)</span></label><input class="field" id="swift" placeholder="Bank's SWIFT/BIC code">
+          <div class="helper">Available countries, bank details, and currencies depend on the provider eventually connected to Sami Pay.</div>
+        </div>
+        <label class="form-label" for="sendAmount">Amount to send</label>
+        <div class="amount-box"><input class="field" id="sendAmount" type="number" min="100" step="0.01" required placeholder="0.00"><span class="amount-suffix" id="amountCurrency">NGN ₦</span></div>
+        <div class="helper" id="amountHelp">Enter the amount in Nigerian naira.</div>
+        <label class="form-label" for="narration">Payment note <span style="font-weight:400;color:#7a8782">(optional)</span></label><input class="field" id="narration" maxlength="80" placeholder="What's this payment for?">
+        <button class="primary" type="button" id="continueBtn">Review transfer</button>
+      </div>
+      <div id="reviewStep" hidden>
+        <div class="route"><span class="route-icon">✓</span><div><strong>Review your transfer</strong><small>Please check the details before continuing.</small></div></div>
+        <div class="summary" id="summary"></div>
+        <div class="notice" id="reviewNotice">Demo only: this is a preview. No money will be sent.</div>
+        <button class="primary" type="submit">Confirm demo transfer</button>
+        <button class="secondary" type="button" id="editBtn">Edit details</button>
+        <div class="status" id="resultMessage" aria-live="polite"></div>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+
+const loginForm=document.getElementById('loginForm');
+loginForm.addEventListener('submit',function(e){
+ e.preventDefault();
+ const identity=document.getElementById('loginIdentity').value.trim();
+ const password=document.getElementById('loginPassword').value;
+ const error=document.getElementById('loginError');
+ if(!identity || !password){error.textContent='Enter your email or phone number and password to continue.';return;}
+ // Demo-only navigation. Credentials are not stored or sent anywhere.
+ error.textContent='';
+ document.getElementById('loginScreen').hidden=true;
+ document.getElementById('dashboardApp').hidden=false;
+ document.getElementById('loginPassword').value='';
+ window.scrollTo(0,0);
+});
+document.getElementById('logoutBtn').addEventListener('click',function(){
+ ['transferModal','requestModal','approveRequestModal'].forEach(id=>{const modalEl=document.getElementById(id);if(modalEl)modalEl.classList.remove('open')});
+ document.body.style.overflow='';
+ if(typeof samipayRequests!=='undefined'){samipayRequests=[];renderRequests()}
+ document.getElementById('dashboardApp').hidden=true;
+ document.getElementById('loginScreen').hidden=false;
+ document.getElementById('loginIdentity').value='';
+ document.getElementById('loginPassword').value='';
+ document.getElementById('loginError').textContent='';
+ window.scrollTo(0,0);
+});
+
+
+
+// Buy Airtime prototype. Selection and validation work locally; no live payment is processed.
+const airtimeModal=$('airtimeModal');
+const airtimeNetworkTrigger=$('networkTrigger');
+let selectedAirtimeNetwork='';
+let selectedAirtimeAmount='';
+function openAirtime(){
+ $('airtimeForm').reset();
+ selectedAirtimeNetwork='';selectedAirtimeAmount='';
+ $('selectedNetworkLogo').className='network-logo';
+ $('selectedNetworkLogo').textContent='SIM';
+ $('selectedNetworkName').textContent='Choose a network';
+ $('selectedNetworkHelp').textContent='MTN, Airtel or Glo';
+ $('networkOptions').hidden=true;airtimeNetworkTrigger.setAttribute('aria-expanded','false');
+ document.querySelectorAll('.network-option').forEach(b=>b.classList.remove('selected'));
+ document.querySelectorAll('.airtime-amount').forEach(b=>b.classList.remove('selected'));
+ $('airtimeReview').hidden=true;$('airtimeResult').textContent='';
+ $('buyAirtimeBtn').disabled=false;
+ airtimeModal.classList.add('open');document.body.style.overflow='hidden';window.scrollTo(0,0);
+}
+function closeAirtime(){airtimeModal.classList.remove('open');document.body.style.overflow=''}
+$('buyAirtimeTile').addEventListener('click',openAirtime);
+$('closeAirtimeModal').addEventListener('click',closeAirtime);
+airtimeModal.addEventListener('click',e=>{if(e.target===airtimeModal)closeAirtime()});
+airtimeNetworkTrigger.addEventListener('click',()=>{
+ const opening=$('networkOptions').hidden;
+ $('networkOptions').hidden=!opening;
+ airtimeNetworkTrigger.setAttribute('aria-expanded',String(opening));
+});
+document.querySelectorAll('.network-option').forEach(button=>button.addEventListener('click',()=>{
+ selectedAirtimeNetwork=button.dataset.network;
+ $('selectedNetworkName').textContent=selectedAirtimeNetwork;
+ $('selectedNetworkHelp').textContent='Selected network provider';
+ $('selectedNetworkLogo').textContent=selectedAirtimeNetwork==='Airtel'?'A':selectedAirtimeNetwork==='Glo'?'G':'MTN';
+ $('selectedNetworkLogo').className='network-logo '+selectedAirtimeNetwork.toLowerCase();
+ document.querySelectorAll('.network-option').forEach(b=>b.classList.toggle('selected',b===button));
+ $('networkOptions').hidden=true;airtimeNetworkTrigger.setAttribute('aria-expanded','false');
+}));
+$('airtimePhone').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,11)});
+function chooseAirtimeAmount(amount){
+ selectedAirtimeAmount=String(amount);
+ $('customAirtimeAmount').value='';
+ document.querySelectorAll('.airtime-amount').forEach(b=>b.classList.toggle('selected',b.dataset.amount===selectedAirtimeAmount));
+}
+document.querySelectorAll('.airtime-amount').forEach(button=>button.addEventListener('click',()=>chooseAirtimeAmount(button.dataset.amount)));
+$('customAirtimeAmount').addEventListener('input',()=>{
+ selectedAirtimeAmount='';
+ document.querySelectorAll('.airtime-amount').forEach(b=>b.classList.remove('selected'));
+});
+$('airtimeForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ if(!selectedAirtimeNetwork){alert('Please choose MTN, Airtel or Glo first.');airtimeNetworkTrigger.focus();return}
+ const phone=$('airtimePhone');
+ if(!phone.reportValidity())return;
+ const custom=$('customAirtimeAmount').value.trim();
+ const amount=custom!==''?Number(custom):Number(selectedAirtimeAmount);
+ if(!Number.isFinite(amount)||amount<50||!Number.isInteger(amount)){
+  $('customAirtimeAmount').setCustomValidity('Enter a whole-naira amount of at least ₦50, or choose one of the preset amounts.');
+  $('customAirtimeAmount').reportValidity();$('customAirtimeAmount').setCustomValidity('');return;
+ }
+ selectedAirtimeAmount=String(amount);
+ const box=$('airtimeSummary');box.replaceChildren();
+ const add=(label,value)=>{const row=document.createElement('div');row.className='summary-row';const l=document.createElement('span');l.textContent=label;const v=document.createElement('strong');v.textContent=value;row.append(l,v);box.append(row)};
+ add('Network',selectedAirtimeNetwork);add('Phone number',phone.value);add('Airtime amount','₦'+amount.toLocaleString('en-NG'));
+ $('airtimeReview').hidden=false;$('airtimeResult').textContent='';
+ $('airtimeReview').scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+$('editAirtimeBtn').addEventListener('click',()=>{$('airtimeReview').hidden=true;$('airtimeResult').textContent=''});
+$('confirmAirtimeBtn').addEventListener('click',()=>{
+ $('airtimeResult').textContent='Demo purchase complete. No payment was taken and no airtime was delivered. Connect a secure backend and an authorized airtime provider to enable live purchases.';
+ $('confirmAirtimeBtn').disabled=true;
+});
+
+// Request Money prototype: records are in-memory only; no notifications or real payments.
+let samipayRequests=[];let activeApprovalId=null;
+const requestModal=document.getElementById('requestModal'),approveRequestModal=document.getElementById('approveRequestModal');
+function moneyNGN(v){return '₦'+Number(v||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function openRequestModal(){renderRequests();document.getElementById('requestForm').reset();document.getElementById('requestDetailsStep').hidden=false;document.getElementById('requestReviewStep').hidden=true;document.getElementById('requestStep1').classList.add('done');document.getElementById('requestStep2').classList.remove('done');document.getElementById('requestResult').textContent='';requestModal.classList.add('open');document.body.style.overflow='hidden';window.scrollTo(0,0)}
+function closeRequestModal(){requestModal.classList.remove('open');document.body.style.overflow=''}
+function closeApprovalModal(){approveRequestModal.classList.remove('open');document.body.style.overflow='';activeApprovalId=null;document.getElementById('demoTransactionPin').value='';document.getElementById('approvalResult').textContent=''}
+const requestTile=document.getElementById('requestMoneyServiceTile');
+if(requestTile)requestTile.addEventListener('click',openRequestModal);
+document.getElementById('closeRequestModal').addEventListener('click',closeRequestModal);
+document.getElementById('closeApproveModal').addEventListener('click',closeApprovalModal);
+requestModal.addEventListener('click',e=>{if(e.target===requestModal)closeRequestModal()});
+approveRequestModal.addEventListener('click',e=>{if(e.target===approveRequestModal)closeApprovalModal()});
+document.getElementById('reviewRequestBtn').addEventListener('click',()=>{
+ for(const id of ['requestPayer','requestContact','requestAmount'])if(!document.getElementById(id).reportValidity())return;
+ const amount=Number(document.getElementById('requestAmount').value);if(!Number.isFinite(amount)||amount<=0){document.getElementById('requestAmount').setCustomValidity('Enter an amount greater than zero.');document.getElementById('requestAmount').reportValidity();document.getElementById('requestAmount').setCustomValidity('');return}
+ const box=document.getElementById('requestSummary');box.replaceChildren();
+ const add=(label,value)=>{const row=document.createElement('div');row.className='summary-row';const l=document.createElement('span');l.textContent=label;const v=document.createElement('strong');v.textContent=value;row.append(l,v);box.append(row)};
+ add('Request from',document.getElementById('requestPayer').value.trim());add('Contact',document.getElementById('requestContact').value.trim());add('Amount requested',moneyNGN(amount));
+ const note=document.getElementById('requestNote').value.trim();if(note)add('Payment note',note);
+ document.getElementById('requestDetailsStep').hidden=true;document.getElementById('requestReviewStep').hidden=false;document.getElementById('requestStep2').classList.add('done');
+});
+document.getElementById('editRequestBtn').addEventListener('click',()=>{document.getElementById('requestReviewStep').hidden=true;document.getElementById('requestDetailsStep').hidden=false;document.getElementById('requestStep2').classList.remove('done')});
+document.getElementById('requestForm').addEventListener('submit',e=>{e.preventDefault();samipayRequests.unshift({id:'req_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),payer:document.getElementById('requestPayer').value.trim(),contact:document.getElementById('requestContact').value.trim(),amount:Number(document.getElementById('requestAmount').value),note:document.getElementById('requestNote').value.trim(),status:'pending'});renderRequests();document.getElementById('requestResult').textContent='Demo request created. No notification was sent and no money was moved.';setTimeout(closeRequestModal,900)});
+function renderRequests(){
+ const list=document.getElementById('requestList');if(!list)return;list.replaceChildren();
+ if(!samipayRequests.length){const empty=document.createElement('div');empty.className='request-empty';empty.textContent='No requests yet. Create a request to see it here.';list.append(empty)}
+ samipayRequests.forEach(req=>{const item=document.createElement('div');item.className='request-item';const person=document.createElement('div');person.className='request-person';const name=document.createElement('strong');name.textContent=req.payer;const detail=document.createElement('small');detail.textContent=req.contact+(req.note?' · '+req.note:'');person.append(name,detail);const right=document.createElement('div');right.className='request-right';const amount=document.createElement('strong');amount.textContent=moneyNGN(req.amount);const status=document.createElement('span');status.className='request-status '+req.status;status.textContent=req.status==='paid'?'Paid':req.status==='declined'?'Declined':'Pending';right.append(amount,status);
+ if(req.status==='pending'){const actions=document.createElement('div');actions.className='request-actions';const share=document.createElement('button');share.type='button';share.textContent='Share';share.addEventListener('click',()=>shareRequest(req));const review=document.createElement('button');review.type='button';review.className='approve';review.textContent='Payer review (demo)';review.addEventListener('click',()=>openApproval(req.id));actions.append(share,review);right.append(actions)}item.append(person,right);list.append(item)});
+ document.getElementById('pendingCount').textContent=String(samipayRequests.filter(r=>r.status==='pending').length);document.getElementById('paidTotal').textContent=moneyNGN(samipayRequests.filter(r=>r.status==='paid').reduce((s,r)=>s+r.amount,0));document.getElementById('requestCount').textContent=String(samipayRequests.length);
+}
+async function shareRequest(req){const message='Sami Pay demo payment request: '+req.payer+' is requesting '+moneyNGN(req.amount)+(req.note?' for '+req.note:'')+'. Prototype only; no live payment link or transaction is active.';try{if(navigator.share)await navigator.share({title:'Sami Pay payment request',text:message});else if(navigator.clipboard){await navigator.clipboard.writeText(message);alert('Demo request details copied. This is not a live payment link.')}else alert(message)}catch(err){if(err.name!=='AbortError')alert(message)}}
+function openApproval(id){const req=samipayRequests.find(r=>r.id===id);if(!req)return;activeApprovalId=id;const box=document.getElementById('approveRequestDetails');box.replaceChildren();const panel=document.createElement('div');panel.className='request-confirm-box';const strong=document.createElement('strong');strong.textContent=moneyNGN(req.amount)+' requested by '+req.payer;const p=document.createElement('p');p.textContent='Contact: '+req.contact+(req.note?' · Note: '+req.note:'');panel.append(strong,p);box.append(panel);document.getElementById('demoTransactionPin').value='';document.getElementById('approvalResult').textContent='';document.getElementById('confirmDemoApproval').disabled=req.status!=='pending';document.getElementById('declineRequestBtn').disabled=req.status!=='pending';approveRequestModal.classList.add('open');document.body.style.overflow='hidden'}
+document.getElementById('confirmDemoApproval').addEventListener('click',()=>{const pin=document.getElementById('demoTransactionPin').value,result=document.getElementById('approvalResult');if(!/^[0-9]{4,6}$/.test(pin)){result.textContent='For this demo only, enter 4–6 digits to simulate authentication.';return}const req=samipayRequests.find(r=>r.id===activeApprovalId);if(!req||req.status!=='pending'){result.textContent='This request is no longer pending.';return}req.status='paid';renderRequests();result.textContent='Demo approved. No money was charged or transferred.';document.getElementById('confirmDemoApproval').disabled=true;document.getElementById('declineRequestBtn').disabled=true});
+document.getElementById('declineRequestBtn').addEventListener('click',()=>{const req=samipayRequests.find(r=>r.id===activeApprovalId);if(!req||req.status!=='pending')return;req.status='declined';renderRequests();document.getElementById('approvalResult').textContent='Demo request declined. No money was moved.';document.getElementById('confirmDemoApproval').disabled=true;document.getElementById('declineRequestBtn').disabled=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAirtime();closeRequestModal();closeApprovalModal()}});
+
+const $=id=>document.getElementById(id);
+let transferType='local';
+const modal=$('transferModal');
+function openTransfer(type){
+ transferType=type;
+ const intl=type==='international';
+ $('modalTitle').textContent=intl?'International transfer':'Local transfer';
+ $('modalSubtitle').textContent=intl?'Send money to a recipient in another country.':'Send Nigerian naira to a Nigerian bank account.';
+ $('routeIcon').textContent=intl?'↗':'⇄';
+ $('routeName').textContent=intl?'International transfer':'Local transfer';
+ $('routeDescription').textContent=intl?'Cross-border · USD or EUR receiving options':'Within Nigeria · Nigerian naira (NGN)';
+ $('localFields').hidden=intl;$('internationalFields').hidden=!intl;
+ $('bankName').required=!intl;$('accountNumber').required=!intl;
+ $('country').required=intl;$('recipientBank').required=intl;$('recipientAccount').required=intl;
+ $('sendAmount').value='';$('recipientName').value='';$('narration').value='';
+ $('bankName').value='';$('accountNumber').value='';$('country').value='';$('receiveCurrency').value='USD';$('recipientBank').value='';$('recipientAccount').value='';$('swift').value='';
+ $('amountCurrency').textContent='NGN ₦';$('amountHelp').textContent=intl?'Enter the amount you want to send from your Sami Pay naira balance.':'Enter the amount in Nigerian naira.';
+ $('detailsStep').hidden=false;$('reviewStep').hidden=true;$('step1').classList.add('done');$('step2').classList.remove('done');
+ $('continueBtn').textContent='Review transfer';modal.classList.add('open');document.body.style.overflow='hidden';
+}
+function closeTransfer(){modal.classList.remove('open');document.body.style.overflow=''}
+document.querySelectorAll('[data-transfer]').forEach(b=>b.addEventListener('click',()=>openTransfer(b.dataset.transfer)));
+document.querySelectorAll('[data-service]').forEach(b=>b.addEventListener('click',()=>{if(b.id==='buyAirtimeTile')return;alert(b.dataset.service+' selected. This service will be connected when the secure Sami Pay backend and authorized providers are implemented.')}));
+$('closeModal').addEventListener('click',closeTransfer);
+modal.addEventListener('click',e=>{if(e.target===modal)closeTransfer()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeTransfer();closeAirtime()}});
+$('receiveCurrency').addEventListener('change',()=>{
+ $('amountHelp').textContent='You are sending NGN from this demo account. The recipient currency is '+$('receiveCurrency').value+'. No live exchange rate is available in this prototype.';
+});
+function addSummary(label,value){const row=document.createElement('div');row.className='summary-row';const l=document.createElement('span');l.textContent=label;const v=document.createElement('strong');v.textContent=value;row.append(l,v);$('summary').append(row)}
+$('continueBtn').addEventListener('click',()=>{
+ const intl=transferType==='international';
+ const requiredIds=intl?['recipientName','country','recipientBank','recipientAccount','sendAmount']:['recipientName','bankName','accountNumber','sendAmount'];
+ for(const id of requiredIds){const el=$(id);if(!el.reportValidity())return}
+ if(Number($('sendAmount').value)<=0){$('sendAmount').setCustomValidity('Enter an amount greater than zero.');$('sendAmount').reportValidity();$('sendAmount').setCustomValidity('');return}
+ $('summary').replaceChildren();
+ addSummary('Transfer type',intl?'International':'Local');
+ addSummary('Recipient',$('recipientName').value.trim());
+ if(intl){addSummary('Destination',$('country').selectedOptions[0].text);addSummary('Recipient bank',$('recipientBank').value.trim());addSummary('Bank details',$('recipientAccount').value.trim());if($('swift').value.trim())addSummary('SWIFT/BIC',$('swift').value.trim());addSummary('Receiving currency',$('receiveCurrency').value);}
+ else{addSummary('Bank',$('bankName').value);addSummary('Account number',$('accountNumber').value);}
+ addSummary('Amount to send','₦'+Number($('sendAmount').value).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2}));
+ if($('narration').value.trim())addSummary('Payment note',$('narration').value.trim());
+ addSummary('Fee','Not available in demo');
+ $('detailsStep').hidden=true;$('reviewStep').hidden=false;$('step2').classList.add('done');$('resultMessage').textContent='';
+ $('reviewNotice').textContent=intl?'Demo only: the exchange rate, receiving amount, fees, and delivery time are not connected. No money will be sent.':'Demo only: recipient verification and bank payment are not connected. No money will be sent.';
+});
+$('editBtn').addEventListener('click',()=>{$('reviewStep').hidden=true;$('detailsStep').hidden=false;$('step2').classList.remove('done')});
+$('transferForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ $('resultMessage').textContent='Demo preview complete. No money was sent. Sami Pay will need a secure backend and an authorized transfer provider to process real payments.';
+});
+</script>
+</body>
+</html>
